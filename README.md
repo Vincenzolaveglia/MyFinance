@@ -35,5 +35,6 @@ Per installare e configurare FatturaSubito nel vostro ambiente locale, seguite l
 4. Avviare il server ASP.NET per testare l'applicazione in locale.
 
 ## 📷 Preview
-![Foto Home Desktop](~/Content/imgs/ScreenDashboard.png)
-![Foto Home Mobile](~/Content/imgs/ScreenDashboardMobile.png)
+![Foto Home Desktop](https://github.com/Vincenzolaveglia/MyFinance/raw/main/Content/imgs/ScreenDashboard.png)
+![Foto Home Mobile](https://github.com/tuonomeutente/MyFinance/raw/main/Content/imgs/ScreenDashboardMobile.png)
+
