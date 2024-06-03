@@ -4,7 +4,7 @@ Benvenuti nel repository di MyFinance, un'applicazione web dedicata alla gestion
 
 ## 🎯 Obiettivo
 
-L'obiettivo principale di MyFinance è quello di facilitare la festione dei prorpi soldi a tutti.
+L'obiettivo principale di MyFinance è quello di facilitare la festione dei propri soldi a tutti in modo semplice e veloce.
 
 ## 🌐 Accesso alla Demo
 
