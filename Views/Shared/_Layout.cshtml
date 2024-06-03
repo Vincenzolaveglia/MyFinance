@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/Content/imgs/logo.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>@ViewBag.Title - MyFinance</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        body {
+            color: white;
+        }
+
+        .sidebar {
+            background-color: #222b33;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            padding-top: 20px;
+            transition: transform 0.3s ease;
+            transform: translateX(-100%);
+            z-index: 1000;
+        }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .sidebar .nav-link {
+                display: flex;
+                align-items: center;
+                color: white;
+                font-size: 20px; /* Dimensione del testo */
+                padding: 15px;
+            }
+
+                .sidebar .nav-link i {
+                    margin-right: 10px;
+                    font-size: 20px; /* Dimensione delle icone */
+                }
+
+                .sidebar .nav-link .link-text {
+                    font-size: 16px; /* Dimensione del testo per i link */
+                }
+
+                .sidebar .nav-link.active {
+                    background-color: #1b1f23;
+                }
+
+                .sidebar .nav-link:hover {
+                    background-color: #1b1f23;
+                    text-decoration: none;
+                }
+
+        .content {
+            padding: 20px;
+        }
+
+        .sidebar-toggle-btn {
+            margin-right: 2rem;
+            z-index: 1100; /* Above the sidebar */
+            background-color: #222b33;
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999; /* Below the button but above the content */
+        }
+
+            .overlay.show {
+                display: block;
+            }
+
+        .display-none {
+            display: none;
+        }
+    </style>
+</head>
+<body style="background-color: #0E1218">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+            <button class="sidebar-toggle-btn rounded" id="sidebarToggleBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @Html.ActionLink("MyFinance", "Index", "MyHome", new { area = "" }, new { @class = "navbar-brand fw-bold fs-1" })
+            }
+            else
+            {
+                @Html.ActionLink("MyFinance", "Index", "Home", new { area = "" }, new { @class = "navbar-brand fw-bold fs-1" })
+            }
+
+            <div class="d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav ml-auto">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item me-3 fs-5" style="cursor: pointer;">
+                            <i class="fas fa-bell text-white"></i>
+                        </li>
+                        <li class="nav-item me-3 fs-5" style="cursor: pointer;">
+                            <i class="fas fa-envelope"></i>
+                        </li>
+                        <li class="nav-item">
+                            @using (Html.BeginForm("Logout", "Auth"))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" style="border: none; background: none; padding: 0; cursor: pointer;" class="d-none d-md-block">
+                                    <i class="fas fa-sign-out-alt text-danger fs-3"></i>
+                                </button>
+                            }
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a href="@Url.Action("Login", "Auth")">
+                                <i class="fas fa-sign-in-alt text-success fs-3"></i>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        @Html.Partial("_Sidebar")
+    </div>
+    <div class="overlay" id="sidebarOverlay"></div>
+    <div class="container body-content content" id="mainContent">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - MyFinance</p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        document.getElementById("sidebarToggleBtn").addEventListener("click", function () {
+            var sidebar = document.getElementById("sidebar");
+            var overlay = document.getElementById("sidebarOverlay");
+            var buttonSidebar = document.getElementById("sidebarToggleBtn");
+            sidebar.classList.toggle("show");
+            overlay.classList.toggle("show");
+            buttonSidebar.classList.add("display-none");
+        });
+
+        document.getElementById("sidebarOverlay").addEventListener("click", function () {
+            var sidebar = document.getElementById("sidebar");
+            var overlay = document.getElementById("sidebarOverlay");
+            var buttonSidebar = document.getElementById("sidebarToggleBtn");
+            sidebar.classList.remove("show");
+            overlay.classList.remove("show");
+            buttonSidebar.classList.remove("display-none");
+        });
+    </script>
+</body>
+</html>

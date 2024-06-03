@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="text-center mb-5">
+    <h1 class="text-center fw-bold mt-5 mb-2" style="font-size: 60px;">Gestisci le tue finanze con un click</h1>
+    <h2 class="text-center fw-light mb-4" style="font-size: 30px;">Registrati 100% gratuito</h2>
+    <a href="@Url.Action("Login", "Auth")" class="btn btn-primary fw-bold" style="padding: 20px 20px; font-size: 25px;">Inizia ora</a>
+</div>
+<div class="position-relative">
+    <div class="text-center mb-5 border rounded-4 p-1">
+        <img class="mb-3 img-fluid" src="@Url.Content("~/Content/imgs/ScreenDashboard.png")" height="500" />
+    </div>
+    <img class="position-absolute rounded-5 d-none d-md-block" src="@Url.Content("~/Content/imgs/ScreenDashboardMobile.png")" style="width: 200px; bottom: 10px; left: 10px;" />
+</div>
+
+<div class="text-center mb-5">
+    <h2 class="fw-bold">
+        Registra tutti i tuoi movimenti e rimani organizzato sulle tue entrate e uscite.
+    </h2>
+</div>
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            <img class="mb-3 colored-image" src="@Url.Content("~/Content/imgs/iconaFacilità.png")" height="100" />
+            <h2 class="fw-bold">Semplice e intuitivo</h2>
+            <p>Esperienza semplice e intuitiva, con un layout chiaro e ben organizzato</p>
+        </div>
+
+        <div class="col-md-4 text-center">
+            <img class="mb-3 colored-image" src="@Url.Content("~/Content/imgs/lucchetto.png")" height="100" />
+            <h2 class="fw-bold">Sicuro e Protetto</h2>
+            <p>I tuoi dati sono al sicuro con noi.</p>
+        </div>
+
+        <div class="col-md-4 text-center">
+            <img class="mb-3 colored-image" src="@Url.Content("~/Content/imgs/ingranaggio.png")" height="100" />
+            <h2 class="fw-bold">Personalizzabile</h2>
+            <p>Personalizza la tua esperienza finanziaria con facilità.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .colored-image {
+        filter: invert(100%);
+    }
+</style>

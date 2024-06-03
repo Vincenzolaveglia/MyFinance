@@ -1,0 +1,52 @@
+﻿@model MyFinance.Models.User
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LoginRegisterLayout.cshtml";
+}
+
+<div class="text-center">
+    <h2>Benvenuto!</h2>
+    <p>Registrati per continuare</p>
+
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="card custom-card">
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    if (TempData["ErrorLogin"] != null)
+                    {
+                        <div class="text-danger">
+                            @TempData["ErrorLogin"]
+                        </div>
+                    }
+
+                    <div class="mb-3">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", placeholder = "Nome Utente" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password", type = "password" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="text-center">
+                        <input type="submit" value="Registrati" class="btn btn-success" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <p>Hai già un account? <a href="@Url.Action("Login", "Auth")">Accedi</a></p>
+    </div>
+</div>
+

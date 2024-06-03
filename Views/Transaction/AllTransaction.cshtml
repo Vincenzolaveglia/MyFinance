@@ -1,0 +1,76 @@
+﻿@model IEnumerable<MyFinance.Models.Transaction>
+
+@{
+    ViewBag.Title = "All Transactions";
+}
+<div class="d-flex justify-content-between align-items-center">
+    <h2 class="mb-3">Elenco transazioni</h2>
+    <a href="@Url.Action("AddTransaction", "Transaction")" class="fw-bold" style="text-decoration: none">
+        <i class="fas fa-plus"></i>
+        <span>Nuova transazione</span>
+    </a>
+
+</div>
+
+<table class="table text-white">
+    <thead style="background-color: #222b33;">
+        <tr>
+            <th>
+                Categoria
+            </th>
+            <th>
+                Descrizione
+            </th>
+            <th>
+                Importo
+            </th>
+            <th>
+                Data
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(t => t.Date))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categories.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @if (item.Categories.CategoryType == "Uscita")
+                {
+                    <td class="text-danger fw-bold">
+                        - @Html.DisplayFor(modelItem => item.Amount) €
+                    </td>
+                }
+                else
+                {
+                    <td class="text-success fw-bold">
+                        @Html.DisplayFor(modelItem => item.Amount) €
+                    </td>
+                }
+
+                <td>
+                    @String.Format("{0:dd-MMM-yy}", item.Date)
+                </td>
+
+                <td>
+                    @using (Html.BeginForm("DeleteTransaction", "Transaction", FormMethod.Post, new { onsubmit = "return confirm('Sei sicuro di voler eliminare questa transazione?');" }))
+                    {
+                        @Html.Hidden("id", item.TransactionId)
+                        <button type="submit" style="border: none; background: none; padding: 0;">
+                            <i class="fas fa-trash-alt text-danger"></i>
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-center">
+
+</div>

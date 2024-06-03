@@ -1,0 +1,100 @@
+﻿@model MyFinance.Models.Transaction
+
+@{
+    ViewBag.Title = "Add Transaction";
+}
+
+<h2>Aggiungi Transazione</h2>
+
+@using (Html.BeginForm("AddTransaction", "Transaction", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Completa i campi e aggiungi ogni tuo movimento</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryId", (SelectList)ViewBag.Categories, "Seleziona categoria", new { @class = "form-select custom-dropdown" })
+                @Html.ValidationMessageFor(m => m.Id_Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <p>Se non trovi la categoria che cerchi Inserisci cliccando <a href="@Url.Action("CreateCategory", "Transaction")">qui</a></p>
+
+        <div class="form-group mb-3">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control custom-form", placeholder = "Descrizione" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control custom-form", placeholder = "Importo" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Date, new { @class = "form-control custom-form", type = "date" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Aggiungi
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .custom-dropdown {
+        background-color: #222b33; 
+        color: white; 
+        border: none;
+        border-radius: 5px; 
+        padding: 8px 12px; 
+        width: 100%;
+        max-width: 300px; 
+    }
+
+        .custom-dropdown option {
+            background-color: #222b33; 
+            color: white; 
+        }
+
+        .custom-dropdown:focus {
+            outline: none;
+        }
+
+    .custom-form {
+        background-color: #222b33;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+    }
+
+        .custom-form:focus {
+            background-color: #222b33;
+            color: white;
+            outline: none;
+        }
+
+    .custom-form::placeholder {
+        color: white;
+    }
+
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

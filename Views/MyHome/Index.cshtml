@@ -1,0 +1,224 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    var userName = ViewBag.UserName;
+    var expenseByCategoryJson = ViewBag.ExpenseByCategoryJson;
+    var lineChartData = ViewBag.IncomeVsExpenseJson;
+    var recentTransactions = ViewBag.RecentTransactions;
+}
+
+<h2>Benvenuto @userName</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="d-flex flex-row widget summary income mb-3 mb-md-0">
+            <div class="d-flex flex-column justify-content-center p-5">
+                <i class="fa-solid fa-dollar-sign fa-2xl text-success"></i>
+            </div>
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Totale Entrate</span>
+                <p class="display-6 fw-bold">@ViewBag.TotalEarned</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="d-flex flex-row widget summary income mb-3 mb-md-0">
+            <div class="d-flex flex-column justify-content-center p-5">
+                <i class="fa-solid fa-dollar-sign fa-2xl text-danger"></i>
+            </div>
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Totale Uscite</span>
+                <p class="display-6 fw-bold">@ViewBag.TotalSpent</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="d-flex flex-row widget summary income">
+            <div class="d-flex flex-column justify-content-center p-5">
+                <i class="fa-solid fa-dollar-sign fa-2xl text-primary"></i>
+            </div>
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Totale</span>
+                <p class="display-6 fw-bold">@ViewBag.TotalAmount</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4 mb-3 mb-md-0">
+        <div class="widget chart d-flex flex-column h-100">
+            <div class="p-4">
+                <h5 class="fw-bold">Spese per categorie</h5>
+                <canvas id="expensePieChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="widget chart">
+            <div class="p-4">
+                <h5 class="fw-bold">Entrate vs Uscite</h5>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="widget chart d-flex flex-column h-100">
+            <div class="p-4 flex-grow-1 overflow-y-auto">
+                <h5 class="fw-bold">Transazioni recenti</h5>
+                <table class="table text-white">
+                    <thead style="background-color: #222b33;">
+                        <tr>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Data</th>
+                            <th scope="col" class="text-end">Importo</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var transaction in ViewBag.RecentTransactions)
+                        {
+                            <tr>
+                                <td>@transaction.Categories.CategoryName</td>
+                                <td>@transaction.Date.ToString("dd-MMM-yy")</td>
+                                @if (transaction.Categories.CategoryType == "Uscita")
+                                {
+                                    <td class="text-end">-@transaction.Amount €</td>
+                                }
+                                else
+                                {
+                                    <td class="text-end">@transaction.Amount €</td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mt-3 mt-md-0">
+        <div class="widget h-100">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <span><i class="fa-solid fa-plus fa-2xl"></i> Widget</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script>
+        //Grafico a torta
+        var expensesByCategory = @Html.Raw(expenseByCategoryJson);
+
+        var ctx = document.getElementById('expensePieChart').getContext('2d');
+        var expensesPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: expensesByCategory.map(function(e) { return e.Category; }),
+                datasets: [{
+                    label: 'Costo',
+                    data: expensesByCategory.map(function(e) { return e.Amount; }),
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+                }]
+            },
+        });
+
+        //Grafico a linee
+        var lineChartData = @Html.Raw(lineChartData);
+
+        var ctxLine = document.getElementById('lineChart').getContext('2d');
+        var lineChart = new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: lineChartData.map(item => item.Day),
+                datasets: [
+                    {
+                        label: 'Entrate',
+                        data: lineChartData.map(item => item.Income),
+                        borderColor: 'rgba(65, 184, 131, 1)',
+                        backgroundColor: 'rgba(65, 184, 131, 1)',
+                        fill: false,
+                    },
+                    {
+                        label: 'Uscite',
+                        data: lineChartData.map(item => item.Expense),
+                        borderColor: 'rgba(255, 0, 0, 1)',
+                        backgroundColor: 'rgba(255, 0, 0, 1)',
+                        fill: false,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Data'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Importo'
+                        }
+                    }
+                }
+            }
+        });
+
+
+    </script>
+}
+
+
+
+
+<style>
+    .widget {
+        border-radius: 1rem;
+        background-color: #1a222b;
+    }
+
+        .widget.summary > div:first-child {
+            background-color: #222b33;
+            padding: 1rem;
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+        }
+
+            .widget.summary > div:first-child i {
+                font-weight: bold;
+            }
+
+        .widget.income > div:first-child {
+            color: #65da41;
+        }
+
+        .widget.expense > div:first-child {
+            color: #ff4e48;
+        }
+
+        .widget.balance > div:first-child {
+            color: #2aa1ff;
+        }
+
+        .widget.chart {
+            padding: 5px;
+        }
+</style>
+
+
