@@ -33,3 +33,7 @@ Per installare e configurare FatturaSubito nel vostro ambiente locale, seguite l
 2. Configurare il database SQL Server utilizzando Entity Framework.
 3. Installare le dipendenze necessarie tramite NuGet.
 4. Avviare il server ASP.NET per testare l'applicazione in locale.
+
+## 📷 Preview
+![Foto Home Desktop](~/Content/imgs/ScreenDashboard.png)
+![Foto Home Mobile](~/Content/imgs/ScreenDashboardMobile.png)
