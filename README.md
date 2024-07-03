@@ -36,11 +36,10 @@ Per installare e configurare FatturaSubito nel vostro ambiente locale, seguite l
 
 ## 📷 Preview
 ## Versione Desktop
-![Foto Home Desktop](https://github.com/Vincenzolaveglia/LeBarbier/blob/master/Screenshot%20WP%20Desktop.png)
-![Foto Calendario Desktop](https://github.com/Vincenzolaveglia/LeBarbier/blob/master/Screenshot%20Calendar%20Desktop.png)
+![Foto Home Desktop](https://github.com/Vincenzolaveglia/MyFinance/blob/528fb8364acc04a16ef3f0ab9c284fcd5eadf4b5/Content/imgs/ScreenDashboard.png)
 
 ## Versione Mobile
-![Foto Home Mobile](https://github.com/Vincenzolaveglia/LeBarbier/blob/master/Screenshot%20WP%20Mobile.png)
-![Foto Calendario Mabile](https://github.com/Vincenzolaveglia/LeBarbier/blob/master/Screenshot%20Calendar%20Mobile.png)
+![Foto Home Mobile](https://github.com/Vincenzolaveglia/MyFinance/blob/528fb8364acc04a16ef3f0ab9c284fcd5eadf4b5/Content/imgs/ScreenDashboardMobile.png)
+
 
 
